@@ -1,8 +1,10 @@
 # dataset settings
 dataset_type = 'DfcDataset'
 data_root = '/home/cv-05/FeedFormer/dataset'
+# img_norm_cfg = dict(
+#     mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375], to_rgb=True)
 img_norm_cfg = dict(
-    mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375], to_rgb=True)
+    mean=[123.675], std=[58.395], to_rgb=False)
 crop_size = (1024, 1024)
 train_pipeline = [
     dict(type='LoadImageFromFile'),
@@ -40,7 +42,7 @@ data = dict(
         dataset=dict(
             type=dataset_type,
             data_root=data_root,
-            img_dir='img/train/rgb_images',
+            img_dir='img/train/sar_images',
             ann_dir='ann/train',
             pipeline=train_pipeline)),
     val=dict(
@@ -52,6 +54,6 @@ data = dict(
     test=dict(
         type=dataset_type,
         data_root=data_root,
-        img_dir='img/test/sar_images',
+        img_dir='img/val/sar_images',
         ann_dir=None,
         pipeline=test_pipeline))

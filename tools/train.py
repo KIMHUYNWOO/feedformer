@@ -31,13 +31,13 @@ def parse_args():
     group_gpus = parser.add_mutually_exclusive_group()
     group_gpus.add_argument(
         '--gpus',
-        default=6,
+        default=4,
         type=int,
         help='number of gpus to use '
         '(only applicable to non-distributed training)')
     group_gpus.add_argument(
         '--gpu-ids',
-        default=[0,1,2,3,4,5,6,7],
+        default=[4,5,6,7],
         type=int,
         nargs='+',
         help='ids of gpus to use '
@@ -56,7 +56,7 @@ def parse_args():
         help='job launcher')
     
     parser.add_argument('--local_rank', type=int, default=0, help='Local rank for distributed training')
-    parser.add_argument('--world_size', type=int, default=8, help='Total number of processes in distributed training')
+    parser.add_argument('--world_size', type=int, default=4, help='Total number of processes in distributed training')
     parser.add_argument('--master_addr', type=str, default='127.0.0.1', help='Address of master node')
     parser.add_argument('--master_port', type=int, default=29500, help='Port for master node')
     
@@ -99,7 +99,7 @@ def main():
     if args.load_from is not None:
         cfg.load_from = args.load_from
     if args.resume_from is not None:
-    #args.resume_from = "/home/jhshim1995/transformer/SegFormer-master/work_dirs/segformer.b5.640x640.ade.160k/iter_200000.pth"
+        args.resume_from = "/home/cv-05/FeedFormer/FeedFormer-master/work_dirs/feedformer.b2.1024x1024.city.160k/latest.pth"
         cfg.resume_from = args.resume_from
     if args.gpu_ids is not None:
         cfg.gpu_ids = args.gpu_ids

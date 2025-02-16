@@ -103,7 +103,7 @@ def train_segmentor(model,
     #         runner.register_hook(hook, priority=priority)
 
     # an ugly walkaround to make the .log and .log.json filenames the same
-    runner.timestamp = timestamp
+    runner.timestamp = timestamp           
 
     # register eval hooks
     if validate:
