@@ -143,31 +143,8 @@ class CustomDataset(Dataset):
                         seg_map = img_name + seg_map_suffix
                         img_info['ann'] = dict(seg_map=seg_map)
                     img_infos.append(img_info)
-        else:
-            for img in mmcv.scandir(img_dir, img_suffix, recursive=True):
-                img_info = dict(filename=img)
-                if ann_dir is not None:
-                    seg_map = img.replace(img_suffix, seg_map_suffix)
-                    img_info['ann'] = dict(seg_map=seg_map)
-                img_infos.append(img_info)
-
-        print_log(f'Loaded {len(img_infos)} images', logger=get_root_logger())
-        return img_infos
-        
         # else:
-        #     imgs = list(mmcv.scandir(img_dir, img_suffix, recursive=True))
-            
-        #     # ValArea_XXX 형식의 파일을 숫자 순서대로 정렬
-        #     def get_area_number(filename):
-        #         try:
-        #             # ValArea_001.tif -> 1
-        #             return int(filename.split('_')[1].split('.')[0])
-        #         except:
-        #             return float('inf')  # 다른 형식의 파일은 마지막으로
-            
-        #     imgs.sort(key=get_area_number)
-            
-        #     for img in imgs:
+        #     for img in mmcv.scandir(img_dir, img_suffix, recursive=True):
         #         img_info = dict(filename=img)
         #         if ann_dir is not None:
         #             seg_map = img.replace(img_suffix, seg_map_suffix)
@@ -176,6 +153,29 @@ class CustomDataset(Dataset):
 
         # print_log(f'Loaded {len(img_infos)} images', logger=get_root_logger())
         # return img_infos
+        
+        else:
+            imgs = list(mmcv.scandir(img_dir, img_suffix, recursive=True))
+            
+            # ValArea_XXX 형식의 파일을 숫자 순서대로 정렬
+            def get_area_number(filename):
+                try:
+                    # ValArea_001.tif -> 1
+                    return int(filename.split('_')[1].split('.')[0])
+                except:
+                    return float('inf')  # 다른 형식의 파일은 마지막으로
+            
+            imgs.sort(key=get_area_number)
+            
+            for img in imgs:
+                img_info = dict(filename=img)
+                if ann_dir is not None:
+                    seg_map = img.replace(img_suffix, seg_map_suffix)
+                    img_info['ann'] = dict(seg_map=seg_map)
+                img_infos.append(img_info)
+
+        print_log(f'Loaded {len(img_infos)} images', logger=get_root_logger())
+        return img_infos
 
     def get_ann_info(self, idx):
         """Get annotation by index.

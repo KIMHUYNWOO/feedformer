@@ -432,3 +432,68 @@ class EncoderDecoder(BaseSegmentor):
         # unravel batch dim
         seg_pred = list(seg_pred)
         return seg_pred
+
+    # def aug_test(self, imgs, img_metas, rescale=True):
+    #     """Test with augmentations and save confidence scores to CSV.
+    #     """
+        # import pandas as pd
+        # import os
+        # import torch.nn.functional as F
+
+        # assert rescale
+        # # 첫 번째 이미지에 대한 로짓값 계산
+        # seg_logit = self.inference(imgs[0], img_metas[0], rescale)
+        
+        # # 나머지 이미지들에 대한 로짓값 누적
+        # for i in range(1, len(imgs)):
+        #     cur_seg_logit = self.inference(imgs[i], img_metas[i], rescale)
+        #     seg_logit += cur_seg_logit
+        
+        # # 평균 로짓값 계산
+        # seg_logit /= len(imgs)
+        
+        # # 이미지 이름 가져오기
+        # # image_name = os.path.basename(img_metas[0]['filename'])
+        # image_name = os.path.basename(img_metas[0][0]['filename'])
+        
+        # # softmax 적용하여 확률값으로 변환 및 최대값 계산
+        # probs = F.softmax(seg_logit, dim=1)
+        # max_probs, seg_pred = torch.max(probs, dim=1)
+        
+        # # 다양한 confidence score 계산
+        # confidence_mean = torch.mean(max_probs).item()
+        # confidence_median = torch.median(max_probs).item()
+        
+        # # 영역 기반 confidence 계산
+        # total_pixels = max_probs.numel()
+        # high_conf_pixels = torch.sum(max_probs > 0.9).item()
+        # confidence_ratio = high_conf_pixels / total_pixels
+        
+        # # CSV 저장을 위한 데이터 준비
+        # csv_path = '/data/2_data_server/cv-07/challenge/semantic_sementation/SegFormer/confidence_scores/confidence_scores.csv'
+        # data = {
+        #     'image_name': image_name,
+        #     'mean_confidence': confidence_mean,
+        #     'median_confidence': confidence_median,
+        #     'high_conf_ratio': confidence_ratio
+        # }
+        
+        # # 기존 CSV 로드 또는 새로 생성
+        # try:
+        #     df = pd.read_csv(csv_path)
+        #     # 이미지가 이미 존재하면 업데이트, 없으면 추가
+        #     if image_name in df['image_name'].values:
+        #         df.loc[df['image_name'] == image_name] = pd.Series(data)
+        #     else:
+        #         df = pd.concat([df, pd.DataFrame([data])], ignore_index=True)
+        # except FileNotFoundError:
+        #     df = pd.DataFrame([data])
+        
+        # # CSV 저장
+        # df.to_csv(csv_path, index=False)
+        
+        # 예측 결과를 numpy 배열로 변환
+        # seg_pred = seg_pred.cpu().numpy()
+        # seg_pred = list(seg_pred)
+        
+        # return seg_pred

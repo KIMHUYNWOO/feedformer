@@ -5,6 +5,7 @@ dataset_type = 'CustomDataset'
 data_root = '/data/2_data_server/cv-07/challenge/semantic_sementation/SegFormer/dataset'
 # data_root = '/data/2_data_server/cv-07/challenge/semantic_sementation/open_earth_map/data'
 
+
 img_norm_cfg = dict(
     # mean=[118.99, 121.39,106.77], std=[44.79, 40.69, 41.17], to_rgb=True)
     mean=[49,49,49], std=[34,34,34], to_rgb=False)
@@ -51,16 +52,21 @@ data = dict(
             data_root=data_root,
             img_dir='only_sar/train/images',
             ann_dir='only_sar/train/labels',
+            # img_dir='train/images',
+            # ann_dir='train/labels',
             pipeline=train_pipeline)),
     val=dict(
         type=dataset_type,
         data_root=data_root,
         img_dir='only_sar/val/images',
         ann_dir='only_sar/val/labels',
+        # img_dir='val_3/images',
+        # ann_dir='val_3/labels',
         pipeline=test_pipeline),
     test=dict(
         type=dataset_type,
         data_root=data_root,
-        img_dir='val',
+        # img_dir='val',
+        img_dir='train/rgb_images',
         ann_dir='gtFine/val',
         pipeline=test_pipeline))
